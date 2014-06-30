@@ -38,6 +38,13 @@ module Snapr
       @db_adaptor.exec("DROP TABLE IF EXISTS matches")
     end
 
+    def user_login
+    end
+
+    def user_signup
+    end
+
+    def
 
   end
 
