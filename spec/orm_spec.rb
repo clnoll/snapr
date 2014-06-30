@@ -65,5 +65,59 @@ describe "ORM" do
   # describe "update_image" do
   # end
 
+  describe "insert_match" do
+    context "compatible" do
+      it "will add a compatibility indicator to two users" do
+        Snapr.orm.create_user('alex', 'alex')
+        Snapr.orm.create_user('jill', 'jill')
+        match = Snapr.orm.insert_match(1, 2, false)
 
+        expect(match).to eq false
+      end
+    end
+
+    context "compatible" do
+      it "will add a compatibility indicator to two users" do
+        Snapr.orm.create_user('alex', 'alex')
+        Snapr.orm.create_user('jill', 'jill')
+        match = Snapr.orm.insert_match(1, 2, true)
+
+        expect(match).to eq true
+      end
+    end
+  end
+
+  describe 'list_matches' do
+    it 'will list matching users' do
+      Snapr.orm.create_user('alex', 'alex')
+      Snapr.orm.create_user('jill', 'jill')
+      Snapr.orm.create_user('kate', 'kate')
+      Snapr.orm.insert_match(1, 2, true)
+      matches = Snapr.orm.list_matches(1)
+      matches.map! { |user| user.username }
+
+      expect(matches).to include('jill')
+      expect(matches).not_to include('kate')
+    end
+  end
+
+  describe 'list_potential' do
+    it "lists potential matches" do
+      Snapr.orm.create_user('alex', 'alex')
+      al = Snapr.orm.create_profile(1, 25, 'petaluma', 'CA', 'male', 'female', 'Im so cool')
+      Snapr.orm.create_user('jill', 'jill')
+      Snapr.orm.create_profile(2, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
+      Snapr.orm.create_user('kate', 'kate')
+      Snapr.orm.create_profile(3, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
+      Snapr.orm.create_user('sarah', 'sarah')
+      Snapr.orm.create_profile(4, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
+      Snapr.orm.insert_match(1, 2, false)
+
+      potential = Snapr.orm.list_potential(1, al.gender_pref)
+      potential.map! { |user| user.username }
+
+      expect(potential).to include('kate', 'sarah')
+      expect(potential).not_to include('jill')
+    end
+  end
 end
