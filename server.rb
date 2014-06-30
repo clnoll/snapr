@@ -1,5 +1,5 @@
 require 'sinatra'
-require_relative 'lib/rps.rb'
+require_relative 'lib/snapr.rb'
 require 'pry-debugger'
 # require 'rack/test'
 enable :sessions
