@@ -104,12 +104,16 @@ describe "ORM" do
   describe 'list_potential' do
     it "lists potential matches" do
       Snapr.orm.create_user('alex', 'alex')
-      Snapr.orm.create_profile(25, 'petaluma', 'male', 'female', 'Im so cool')
+      al = Snapr.orm.create_profile(1, 25, 'petaluma', 'CA', 'male', 'female', 'Im so cool')
       Snapr.orm.create_user('jill', 'jill')
+      Snapr.orm.create_profile(2, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
       Snapr.orm.create_user('kate', 'kate')
+      Snapr.orm.create_profile(3, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
       Snapr.orm.create_user('sarah', 'sarah')
+      Snapr.orm.create_profile(4, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
       Snapr.orm.insert_match(1, 2, false)
-      potential = Snapr.orm.list_potential(1)
+
+      potential = Snapr.orm.list_potential(1, al.gender_pref)
       potential.map! { |user| user.username }
 
       expect(potential).to include('kate', 'sarah')

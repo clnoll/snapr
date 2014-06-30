@@ -87,11 +87,16 @@ module Snapr
     def insert_match(uid_1, uid_2, like)
       command = <<-SQL
         INSERT INTO matches (user_id_1, user_id_2, likes)
-        VALUES (#{uid_1}, #{uid_2}, #{like});
+        VALUES (#{uid_1}, #{uid_2}, #{like})
+        RETURNING likes;
       SQL
 
       output = @db_adaptor.exec(command).first
-      output.likes
+      if output['likes'] == 'f'
+        return false
+      else
+        return true
+      end
     end
 
     def list_matches(uid)
@@ -99,15 +104,17 @@ module Snapr
         SELECT *
         FROM users u
         JOIN matches m
-        ON u.id = m.user_id_1
+        ON u.id = m.user_id_2
         WHERE m.user_id_1 = #{uid}
-        AND WHERE m.likes = true
+        AND m.likes != 'f';
       SQL
 
       users = []
       output = @db_adaptor.exec(command)
+      # binding.pry
       output.each do |user|
-        users << Snapr::User.new(ouput['username'], ouput['password'], ouput['id'], output)
+        # binding.pry
+        users << Snapr::User.new(user['username'], user['password'], user['id'].to_i, user)
       end
       users
     end
@@ -117,15 +124,16 @@ module Snapr
         SELECT *
         FROM users u
         JOIN matches m
-        ON u.id = m.user_id_1
-        WHERE u.gender = #{g_pref}
-        AND WHERE m.likes != false
+        ON u.id = m.id
+        WHERE u.gender = 'female'
+        AND m.likes = 't';
       SQL
 
       users = []
       output = @db_adaptor.exec(command)
+      #binding.pry
       output.each do |user|
-        users << Snapr::User.new(ouput['username'], ouput['password'], ouput['id'], output)
+        users << Snapr::User.new(user['username'], user['password'], user['id'], user)
       end
       users
     end
