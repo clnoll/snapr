@@ -114,30 +114,35 @@ module Snapr
 
       users = []
       output = @db_adaptor.exec(command)
-      # binding.pry
       output.each do |user|
-        # binding.pry
         users << Snapr::User.new(user['username'], user['password'], user['id'].to_i, user)
       end
       users
     end
 
-    def list_potential(uid, g_pref)
-      command = <<-SQL
-        SELECT *
-        FROM users u
-        JOIN matches m
-        ON u.id = m.id
-        WHERE u.gender = 'female'
-        AND m.likes = 't';
+    def list_potential(g_pref)
+      command1 = <<-SQL
+        SELECT * FROM users
+        JOIN matches
+        on users.id != matches.user_id_1
+        AND users.id != matches.user_id_2
+        WHERE users.gender = '#{g_pref}'
+        EXCEPT
+        SELECT * from users
+        join matches
+        ON users.id = matches.user_id_1
+        OR users.id = matches.user_id_2
+        WHERE users.gender = '#{g_pref}'
+        AND matches.likes = false;
       SQL
 
       users = []
-      output = @db_adaptor.exec(command)
-      #binding.pry
-      output.each do |user|
+      output1 = @db_adaptor.exec(command1)
+
+      output1.each do |user|
         users << Snapr::User.new(user['username'], user['password'], user['id'], user)
       end
+
       users
     end
   end

@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe "ORM" do
-  before(:all) do
-    Snapr.orm.instance_variable_set(:@db_adaptor, PG.connect(host: 'localhost', dbname: 'snapr-test') )
-    Snapr.orm.delete_tables
-    Snapr.orm.add_tables
-  end
+  # before(:all) do
+  #   Snapr.orm.instance_variable_set(:@db_adaptor, PG.connect(host: 'localhost', dbname: 'snapr-test') )
+  #   Snapr.orm.delete_tables
+  #   Snapr.orm.add_tables
+  # end
 
-  before(:each) do
-    Snapr.orm.delete_tables
-    Snapr.orm.add_tables
-  end
+  # before(:each) do
+  #   Snapr.orm.delete_tables
+  #   Snapr.orm.add_tables
+  # end
 
   it "should be an ORM" do
     expect(Snapr.orm).to be_a(Snapr::ORM)
@@ -113,7 +113,7 @@ describe "ORM" do
       Snapr.orm.create_profile(4, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
       Snapr.orm.insert_match(1, 2, false)
 
-      potential = Snapr.orm.list_potential(1, al.gender_pref)
+      potential = Snapr.orm.list_potential(al.gender_pref)
       potential.map! { |user| user.username }
 
       expect(potential).to include('kate', 'sarah')
