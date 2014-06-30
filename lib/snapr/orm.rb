@@ -44,8 +44,51 @@ module Snapr
     def user_signup
     end
 
-    def
+    def insert_match(uid_1, uid_2, like)
+      command = <<-SQL
+        INSERT INTO matches (user_id_1, user_id_2, likes)
+        VALUES (#{uid_1}, #{uid_2}, #{like});
+      SQL
 
+      output = @db_adaptor.exec(command).first
+      output.likes
+    end
+
+    def list_matches(uid)
+      command = <<-SQL
+        SELECT *
+        FROM users u
+        JOIN matches m
+        ON u.id = m.user_id_1
+        WHERE m.user_id_1 = #{uid}
+        AND WHERE m.likes = true
+      SQL
+
+      users = []
+      output = @db_adaptor.exec(command)
+      output.each do |user|
+        users << Snapr::User.new(ouput['username'], ouput['password'], ouput['id'], output)
+      end
+      users
+    end
+
+    def list_potential(uid, g_pref)
+      command = <<-SQL
+        SELECT *
+        FROM users u
+        JOIN matches m
+        ON u.id = m.user_id_1
+        WHERE u.gender = #{g_pref}
+        AND WHERE m.likes != false
+      SQL
+
+      users = []
+      output = @db_adaptor.exec(command)
+      output.each do |user|
+        users << Snapr::User.new(ouput['username'], ouput['password'], ouput['id'], output)
+      end
+      users
+    end
   end
 
   def self.orm
