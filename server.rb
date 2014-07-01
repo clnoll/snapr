@@ -62,4 +62,10 @@ get '/:id' do
   else
     redirect to('/login')
   end
+
+  user = Snapr.orm.get_user(session[:id])
+
+  result = Snapr::ViewProfiles(session[:id], user.gender_pref)
+
+  @profiles = result[:profiles]
 end
