@@ -11,8 +11,11 @@ get '/' do
 end
 
 post '/' do
+  result = Snapr::UserLogin.run({username: params[:username]})
+
   if result[:success?]
     session[:id] = result[:id]
+    redirect to("/#{session[:id]}")
   else
     @error = result[:error]
     redirect to('/login')
@@ -35,7 +38,7 @@ end
 post ':id/profile' do
   if session[:id]
     edit_profile = Snapr::CreateProfile.run({id: session[:id], age: params[:age], city: params[:city], state: params[:state], gender: params[:gender], gender_pref: params[:gender_pref], description: params[:description]})
-    erb :potential_matches
+    redirect to("/login")
   else
     redirect to('/login')
   end
