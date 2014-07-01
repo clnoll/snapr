@@ -14,7 +14,7 @@ class Snapr::UserLogin
     # if snapuser.data[:logged] == false
     #   return { :success? => false, :error => 'Get Snapchat login'}
     # end
-
+# binding.pry
     username = Snapr.orm.get_user(input[:username])
     if username.nil?
       { :success? => false, :error => "Please sign up" }
