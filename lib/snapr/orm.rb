@@ -31,6 +31,9 @@ module Snapr
         likes BOOLEAN,
         PRIMARY KEY(id));
       SQL
+      table_join = <<-SQL
+      CREATE
+      SQL
       @db_adaptor.exec(table_users)
       @db_adaptor.exec(table_matches)
     end

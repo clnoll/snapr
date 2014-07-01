@@ -1,3 +1,159 @@
 .bundle
 vendor/bundle
 .DS_Store
+
+##Test users
+
+CREATE TABLE users(
+        id SERIAL,
+        username TEXT,
+        password TEXT,
+        age INTEGER,
+        city TEXT,
+        state TEXT,
+        gender TEXT,
+        gender_pref TEXT,
+        description TEXT,
+        PRIMARY KEY(id));
+
+CREATE TABLE matches(
+        id SERIAL,
+        user_id_1 INTEGER REFERENCES users(id),
+        user_id_2 INTEGER REFERENCES users(id),
+        likes BOOLEAN,
+        PRIMARY KEY(id));
+
+INSERT INTO users(username, password)
+VALUES('sam', 'password');
+INSERT INTO users(username, password)
+VALUES('ryan', 'password');
+INSERT INTO users(username, password)
+VALUES('mike', 'password');
+INSERT INTO users(username, password)
+VALUES('alex', 'password');
+INSERT INTO users(username, password)
+VALUES('felix', 'password');
+INSERT INTO users(username, password)
+VALUES('joe', 'password');
+INSERT INTO users(username, password)
+VALUES('kate', 'password');
+INSERT INTO users(username, password)
+VALUES('julie', 'password');
+INSERT INTO users(username, password)
+VALUES('julia', 'password');
+INSERT INTO users(username, password)
+VALUES('lana', 'password');
+INSERT INTO users(username, password)
+VALUES('sarah', 'password');
+INSERT INTO users(username, password)
+VALUES('celia', 'password');
+
+UPDATE users
+      SET
+        age=55,
+        city='San Francisco',
+        state='CA',
+        gender='male',
+        gender_pref='male',
+        description='hello'
+      WHERE id=1;
+UPDATE users
+      SET
+        age=44,
+        city='San Francisco',
+        state='CA',
+        gender='male',
+        gender_pref='male',
+        description='hi there'
+      WHERE id=2;
+UPDATE users
+      SET
+        age=22
+        city='San Francisco',
+        state='CA',
+        gender='male',
+        gender_pref='male',
+        gender_pref='male',
+        description='ahoy'
+      WHERE id=3;
+UPDATE users
+      SET
+        age=45,
+        city='San Francisco',
+        state='CA',
+        gender='male',
+        gender_pref='female',
+        description='yo'
+      WHERE id=4;
+UPDATE users
+      SET
+        age=22,
+        city='San Francisco',
+        state='CA',
+        gender='male',
+        gender_pref='female',
+        description='hey'
+      WHERE id=5;
+UPDATE users
+      SET
+        age=33,
+        city='San Francisco',
+        state='CA',
+        gender='male',
+        gender_pref='female',
+        description='hi'
+      WHERE id=6;
+UPDATE users
+      SET
+        age=26,
+        city='San Francisco',
+        state='CA',
+        gender='female',
+        gender_pref='female',
+        description='look at me'
+      WHERE id=7;
+UPDATE users
+      SET
+        age=88,
+        city='San Francisco',
+        state='CA',
+        gender='female',
+        gender_pref='female',
+        description='whatup'
+      WHERE id=8;
+UPDATE users
+      SET
+        age=28,
+        city='San Francisco',
+        state='CA',
+        gender='female',
+        gender_pref='female',
+        description='well hello'
+      WHERE id=9;
+UPDATE users
+      SET
+        age=23,
+        city='San Francisco',
+        state='CA',
+        gender='female',
+        gender_pref='male',
+        description='here i am'
+      WHERE id=10;
+UPDATE users
+      SET
+        age=37,
+        city='San Francisco',
+        state='CA',
+        gender='female',
+        gender_pref='male',
+        description='hello'
+      WHERE id=11;
+UPDATE users
+      SET
+        age=25,
+        city='San Francisco',
+        state='CA',
+        gender='female',
+        gender_pref='male',
+        description='hi'
+      WHERE id=12;
