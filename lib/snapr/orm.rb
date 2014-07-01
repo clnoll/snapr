@@ -108,39 +108,53 @@ module Snapr
         FROM users u
         JOIN matches m
         ON u.id = m.user_id_2
+        OR u.id = m.user_id_1
         WHERE m.user_id_1 = #{uid}
-        AND m.likes != 'f';
+        OR m.user_id_2 = #{uid}
+        AND m.likes != 'f'
+        EXCEPT
+        SELECT *
+        FROM users u
+        JOIN matches m
+        ON u.id = m.user_id_2
+        OR u.id = m.user_id_1
+        WHERE u.id = #{uid};
       SQL
 
       users = []
       output = @db_adaptor.exec(command)
+
       output.each do |user|
         users << Snapr::User.new(user['username'], user['password'], user['id'].to_i, user)
       end
       users
     end
 
-    def list_potential(g_pref)
+    def list_potential(uid, g_pref)
+      # command1 = <<-SQL
+      #   SELECT * FROM users
+      #   JOIN matches
+      #   ON users.id != matches.user_id_1
+      #   AND users.id != matches.user_id_2
+      #   WHERE users.gender = '#{g_pref}'
+      #   EXCEPT
+      #   SELECT * from users
+      #   join matches
+      #   ON users.id = matches.user_id_1
+      #   OR users.id = matches.user_id_2
+      #   WHERE users.gender = '#{g_pref}'
+      #   AND matches.likes = false;
+      # SQL
+
       command1 = <<-SQL
-        SELECT * FROM users
-        JOIN matches
-        on users.id != matches.user_id_1
-        AND users.id != matches.user_id_2
-        WHERE users.gender = '#{g_pref}'
-        EXCEPT
-        SELECT * from users
-        join matches
-        ON users.id = matches.user_id_1
-        OR users.id = matches.user_id_2
-        WHERE users.gender = '#{g_pref}'
-        AND matches.likes = false;
+        SELECT * FROM users;
       SQL
 
       users = []
       output1 = @db_adaptor.exec(command1)
 
       output1.each do |user|
-        users << Snapr::User.new(user['username'], user['password'], user['id'], user)
+        users << Snapr::User.new(user["username"], user['password'], user['id'], user)
       end
 
       users
