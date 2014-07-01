@@ -27,8 +27,9 @@ describe "ORM" do
       expect(user1).to be_a(Snapr::User)
       expect(user1.username).to eq('first_user')
       expect(user1.id).to be_a(Fixnum)
+      expect(user2.id).to_not eq(1)
       expect(user2.username).to eq('second_user')
-      expect(user2.id).to_not eq(user1.id)
+      expect(user2.id).to eq(2)
     end
   end
 
@@ -104,20 +105,23 @@ describe "ORM" do
   describe 'list_potential' do
     it "lists potential matches" do
       Snapr.orm.create_user('alex', 'alex')
-      al = Snapr.orm.create_profile(1, 25, 'petaluma', 'CA', 'male', 'female', 'Im so cool')
       Snapr.orm.create_user('jill', 'jill')
-      Snapr.orm.create_profile(2, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
       Snapr.orm.create_user('kate', 'kate')
-      Snapr.orm.create_profile(3, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
       Snapr.orm.create_user('sarah', 'sarah')
+      Snapr.orm.create_user('mark', 'mark')
+      al = Snapr.orm.create_profile(1, 25, 'petaluma', 'CA', 'male', 'female', 'Im so cool')
+      Snapr.orm.create_profile(2, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
+      Snapr.orm.create_profile(3, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
       Snapr.orm.create_profile(4, 25, 'petaluma', 'CA', 'female', 'male', 'Im so cool')
+      Snapr.orm.create_profile(5, 25, 'petaluma', 'CA', 'male', 'female', 'Im so cool')
+      Snapr.orm.insert_match(4, 5, true)
       Snapr.orm.insert_match(1, 2, false)
 
-      potential = Snapr.orm.list_potential(al.gender_pref)
+      potential = Snapr.orm.list_potential(1, al.gender_pref)
       potential.map! { |user| user.username }
-
+      # binding.pry
       expect(potential).to include('kate', 'sarah')
-      expect(potential).not_to include('jill')
+      expect(potential).not_to include('jill', 'alex', 'mark')
     end
   end
 end
