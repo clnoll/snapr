@@ -1,4 +1,6 @@
 require 'sinatra'
+require "sinatra/json"
+require "sinatra/reloader" if development?
 require_relative 'lib/snapr.rb'
 require 'pry-debugger'
 # require 'rack/test'
