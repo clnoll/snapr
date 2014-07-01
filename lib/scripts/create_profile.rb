@@ -1,3 +1,5 @@
+require 'snapcat'
+
 class Snapr::CreateProfile
 
   def self.run(inputs)
@@ -6,21 +8,12 @@ class Snapr::CreateProfile
 
   def run(input)
 
-    # user = Snapcat::Client.new(input[:username])
-    # if user.nil?
-    #   return { :success? => false, :error => 'Get snapchat login'}
-    # end
-    # user.login(input[:password])
+    profile = Snapr.orm.create_profile(input[:id], input[:age], input[:city], input[:state], input[:gender], input[:gender_pref], input[:description])
 
-    # username = Snapr.orm.get_user(input[:username])
-    # if username.nil?
-    #   username = Snapr.orm.create_user(input[:username], input[:password])
-    #   return { :success? => true, :username => username }
-    # end
+    if profile.id == nil
+      return { :success? => false, :error => "Missing user id"}
+    end
 
-    # { :success? => false, :error => "Username is taken" }
-
-    # end
+    { :success? => true, :profile => profile}
   end
-
 end

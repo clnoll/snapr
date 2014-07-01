@@ -1,3 +1,5 @@
+require 'snapcat'
+
 class Snapr::UserSignUp
 
   def self.run(inputs)
@@ -7,20 +9,22 @@ class Snapr::UserSignUp
   def run(input)
 
     user = Snapcat::Client.new(input[:username])
-    if user.nil?
-      return { :success? => false, :error => 'Get snapchat login'}
+    snapuser = user.login(input[:password])
+
+    if snapuser.data[:logged] == false
+    # if snapuser.http_success == false
+
+      return { :success? => false, :error => 'Get Snapchat login'}
     end
-    user.login(input[:password])
 
     username = Snapr.orm.get_user(input[:username])
-    if username.nil?
+    if !username.nil?
+      { :success? => false, :error => "Username is taken" }
+    else
       username = Snapr.orm.create_user(input[:username], input[:password])
       return { :success? => true, :username => username }
     end
 
-    { :success? => false, :error => "Username is taken" }
-
-    # end
   end
 
 end
