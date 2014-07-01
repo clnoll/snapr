@@ -1,0 +1,5 @@
+<% 9.times do |user| %>
+  <div><%=@profiles[user].username%>" "<%= @profiles[user].city %>" "<%= @profiles[user].age %></div>
+  <div><%=@profiles[user].description%></div>
+  <div>like</div><div>dislike</div>
+<% end %>
