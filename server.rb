@@ -7,7 +7,7 @@ set :bind, '0.0.0.0'
 
 
 get '/' do
-  erb: login
+  erb :login
 end
 
 post '/' do
@@ -20,7 +20,7 @@ post '/' do
 end
 
 get '/signup' do
-  erb: signup
+  erb :signup
 end
 
 post '/signup' do
@@ -35,7 +35,7 @@ end
 post ':id/profile' do
   if session[:id]
     edit_profile = Snapr::CreateProfile.run({id: session[:id], age: params[:age], city: params[:city], state: params[:state], gender: params[:gender], gender_pref: params[:gender_pref], description: params[:description]})
-    erb: potential_matches
+    erb :potential_matches
   else
     redirect to('/login')
   end
@@ -43,7 +43,7 @@ end
 
 get ':id/profile' do
   if session[:id]
-    erb: profile
+    erb :profile
   else
     redirect to('/login')
   end
@@ -53,7 +53,7 @@ get '/:id/matches' do
   if session[:id]
     show_matches = RPS::ViewMatches.run({id: session[:id]})
     @match_results = show_matches[:profiles]
-    erb: matches
+    erb :matches
   else
     redirect to('/login')
   end
@@ -61,7 +61,7 @@ end
 
 get '/:id' do
   if session[:id]
-    erb: potential_matches
+    erb :potential_matches
   else
     redirect to('/login')
   end
