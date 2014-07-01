@@ -68,11 +68,10 @@ UPDATE users
       WHERE id=2;
 UPDATE users
       SET
-        age=22
+        age=22,
         city='San Francisco',
         state='CA',
         gender='male',
-        gender_pref='male',
         gender_pref='male',
         description='ahoy'
       WHERE id=3;
