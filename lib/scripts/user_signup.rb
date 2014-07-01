@@ -11,7 +11,7 @@ class Snapr::UserSignUp
     # user = Snapcat::Client.new(input[:username])
     # snapuser = user.login(input[:password])
 
-    # if snapuser.data[:logged] == false
+    # if not snapuser.data[:logged]
 
     #   return { :success? => false, :error => 'Get Snapchat login'}
     # end
