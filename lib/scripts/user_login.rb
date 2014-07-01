@@ -8,12 +8,12 @@ class Snapr::UserLogin
 
   def run(input)
 
-    user = Snapcat::Client.new(input[:username])
-    snapuser = user.login(input[:password])
+    # user = Snapcat::Client.new(input[:username])
+    # snapuser = user.login(input[:password])
 
-    if snapuser.data[:logged] == false
-      return { :success? => false, :error => 'Get Snapchat login'}
-    end
+    # if snapuser.data[:logged] == false
+    #   return { :success? => false, :error => 'Get Snapchat login'}
+    # end
 
     username = Snapr.orm.get_user(input[:username])
     if username.nil?
