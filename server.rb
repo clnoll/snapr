@@ -71,12 +71,19 @@ end
 #   end
 # end
 
+post '/match' do
+  params = JSON.parse(request.body.read.to_s)
+
+  result = Snapr::InsertMatch.run(params)
+
+  return json(result)
+end
+
 get '/users/:id/matches' do
   if session[:user] == params[:id].to_i
-  binding.pry
 
     result = Snapr::ViewMatches.run({id: session[:user]})
-binding.pry
+
     @match_results = result[:matches]
 
     arr = []
@@ -88,6 +95,7 @@ binding.pry
     return json({error: 'failure'})
   end
 end
+
 
 get '/users/:id/feed' do
 

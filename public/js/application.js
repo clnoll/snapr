@@ -99,6 +99,7 @@
   .controller('feedController', function($scope, $http, $routeParams ) {
     var id = $routeParams['id']; // find id based off the parameter
     $scope.users = []
+    $scope.id = id;
 
     $http.get('/users/' + id + '/feed')
     .success(
@@ -107,6 +108,17 @@
         $scope.users = data;
         // 9 divs showing 9 different user profiles
       })
+    $scope.remove = function (uid, uid2, like) {
+      for (var i = 0; i < $scope.users.length; i++) {
+        if (uid2 == $scope.users[i].id) {
+          $scope.users.splice(i, 1);
+        }
+      }
+      $http.post('/match', {user: uid, uid_2: uid2, match: like})
+    }
+
+
+
     })
 
   .controller('signUpController', function($scope, $location, $timeout, $http) {
