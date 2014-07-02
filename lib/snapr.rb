@@ -13,6 +13,7 @@ require_relative 'scripts/user_login.rb'
 require_relative 'scripts/user_signup.rb'
 require_relative 'scripts/view_matches.rb'
 require_relative 'scripts/view_profiles.rb'
+require_relative 'scripts/insert_match.rb'
 require_relative 'snapr/user.rb'
 require_relative 'snapr/orm.rb'
 

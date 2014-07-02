@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 <a ng-href='/#/users/1/matches'>view matches</a>
 <a ng-href='/#/users/1/profile'>go to profile</a>
 <div class="container">
@@ -6,6 +7,15 @@
     <div class="[ col-sm-6 col-md-offset-2 col-md-4 ]">
       <div class="[ info-card ]" ng-repeat="user in users | limitTo : 12">
           <img style="width: 100%" ng-src="{{user.image}}" />
+=======
+<a ng-href='/#/users/{{id}}/matches'>view matches</a>
+<a ng-href='/#/users/{{id}}/profile'>go to profile</a>
+<div class="container cardholder">
+  <div class="row-fluid">
+    <div class="span4">
+      <div class="[ info-card ]" ng-repeat="user in users | limitTo : 9">
+          <img style="width: 100%" src="https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xfa1/t1.0-9/417157_4897339837183_626079670_n.jpg" />
+>>>>>>> aadda3574fc9a0b84ebd8d42c4e4d549769798ad
           <div class="[ info-card-details ] animate">
             <div class="[ info-card-header ]">
               <h1> {{user.username}} </h1>
@@ -17,9 +27,14 @@
 
               <p>{{user.age}}</p>
               <div class="social">
-                <a href="https://www.facebook.com/rem.mcintosh" class="[ social-icon facebook ] animate"><span class="fa fa-facebook"></span></a>
+                <button type="button" ng-click="remove(id, user.id, false)" class="btn btn-default btn-lg">
+                  <span class="glyphicon glyphicon-remove-circle">Dislike</span>
+                </button>
 
-                <a href="https://twitter.com/Mouse0270" class="[ social-icon twitter ] animate"><span class="fa fa-twitter"></span></a>
+                <button type="button" ng-click="remove(id, user.id, true)" class="btn btn-default btn-lg">
+                  <span class="glyphicon glyphicon-ok-circle">Like</span>
+                </button>
+
             </div>
           </div>
         </div>
