@@ -5,7 +5,9 @@ class Snapr::ViewProfiles
   end
 
   def run(input)
-    profiles = Snapr.orm.list_potential(input[:uid], input[:g_pref])
+    user = Snapr.orm.get_user_by_id(input[:id])
+
+    profiles = Snapr.orm.list_potential(input[:id], user.gender_pref)
 
     if profiles.nil?
       return { :success? => false, :error => 'something terrible has happend' }

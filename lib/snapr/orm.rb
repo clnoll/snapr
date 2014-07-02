@@ -67,6 +67,17 @@ module Snapr
       end
     end
 
+    def get_user_by_id(uid)
+      list = <<-SQL
+      SELECT *
+      FROM users
+      WHERE id = #{uid}
+      SQL
+      result = @db_adaptor.exec(list).first
+
+      Snapr::User.new(result["username"], result["password"], result["id"].to_i)
+    end
+
     def create_profile(uid, age, city, state, gender, gender_pref, description)
       update = <<-SQL
       UPDATE users

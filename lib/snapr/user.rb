@@ -12,4 +12,18 @@ class Snapr::User
     @gender_pref = options['gender_pref'] ||= nil
     @description = options['description'] ||= nil
   end
+
+  def to_json
+    return {
+      username: @username,
+      password: @password,
+      id: @id,
+      age: @age,
+      city: @city,
+      state: @state,
+      gender: @gender,
+      gender_pref: @gender_pref,
+      description: @description
+    }
+  end
 end

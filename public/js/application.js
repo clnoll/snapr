@@ -11,6 +11,28 @@
   // .controller('Ctrl', function() {
 
   // })
+  // app.factory('OAuth', ['$http', function ($http) {
+
+  //   var _SessionID = '';
+
+  //   return {
+  //       login: function () {
+  //           //Do login ans store sessionID in var _SessionID
+  //       },
+
+  //       logout: function () {
+  //           //Do logout
+  //       },
+
+  //       isLoggedIn: function () {
+  //           if(_SessionID) {
+  //               return true;
+  //           }
+  //           //redirect to login page if false
+  //       }
+  //   };
+
+  // }])
 
   // configure our routes
   .config(function($routeProvider) {
@@ -29,9 +51,10 @@
       })
 
   //     // route for the profile page
-      .when('/user/:id', {
+      .when('/users/:id/feed', {
         templateUrl : 'partials/potential_matches.html',
-        controller  : 'mainController'
+        controller  : 'feedController',
+        controllerAs: 'feed'
       })
 
       .when('/user/:id/matches', {
@@ -41,7 +64,7 @@
 
       .when('/signup', {
         templateUrl : 'partials/signup.html',
-        controller  : 'mainController'
+        controller  : 'signUpController'
       });
   })
 
@@ -54,23 +77,45 @@
     //   });
   })
 
-  .controller('loginController', function($scope, $http) {
+  .controller('loginController', function($scope, $location, $timeout, $http) {
     // create a message to display in our view
-    $scope.user = {username: 'user', password: 'pw'};
+    $scope.user = {username: '', password: ''};
 
     $scope.login = function() {
-      $scope.login_result = $http.post('/login', {user: $scope.user}, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).success(function(data){
-        alert('hi');
-        // $timeout(function() {
-        //   $location.path('/user/:id');
-        // })
+      $scope.login_result = $http.post('/login', {user: $scope.user}, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).success(
+        function(data){
+        $timeout(function() {
+          $location.path('/users/' + data.user_id + '/feed');
+        })
       })
     }
   })
 
-  // snapr.controller('aboutController', function($scope, , $http) {
-  //   $scope.message = 'Look! I am an about page.';
-  // });
+  .controller('feedController', function($scope, $http, $routeParams ) {
+    var id = $routeParams['id']; // find id based off the parameter
+    $scope.users = []
+
+    $http.get('/users/' + id + '/feed')
+    .success(
+      function(data) {
+
+        $scope.users = data;
+        // 9 divs showing 9 different user profiles
+      })
+    })
+
+  .controller('signUpController', function($scope, $location, $timeout, $http) {
+    $scope.user = {username: '', password: ''};
+
+    $scope.signup = function() {
+      $scope.signup_result = $http.post('/signup', {user: $scope.user}, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).success(
+        function(data){
+        $timeout(function() {
+          $location.path('/users/' + data.user_id + '/feed');
+        })
+      })
+    }
+  });
 
   // snapr.controller('contactController', function($scope, , $http) {
   //   $scope.message = 'Contact us! JK. This is just a demo.';

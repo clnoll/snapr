@@ -16,4 +16,5 @@ require_relative 'scripts/view_profiles.rb'
 require_relative 'snapr/user.rb'
 require_relative 'snapr/orm.rb'
 
+
 require 'pry-debugger'

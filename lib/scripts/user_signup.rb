@@ -16,11 +16,11 @@ class Snapr::UserSignUp
     #   return { :success? => false, :error => 'Get Snapchat login'}
     # end
 
-    username = Snapr.orm.get_user(input[:username])
+    username = Snapr.orm.get_user(input['username'])
     if !username.nil?
       { :success? => false, :error => "Username is taken" }
     else
-      username = Snapr.orm.create_user(input[:username], input[:password])
+      username = Snapr.orm.create_user(input['username'], input['password'])
       return { :success? => true, :username => username }
     end
 
