@@ -15,25 +15,14 @@ get '/' do
   send_file 'index.html'
 end
 
-# get '/user/:id' do
-#   if session[:user_id] == params[:id]
-#     return json Snapr::GetUserById.run(id: session[:user_id])
-#   else
-#     return :failure
-#   end
-# end
-
 post '/login' do
   puts params
 
   params = JSON.parse(request.body.read.to_s)
   login_info = params['user']
   login_result = Snapr::UserLogin.run(login_info)
-  # binding.pry
-  # json login_result[:username].to_json
 
   if login_result[:success?]
-    # session[:id] = login_result[:id]
     session[:user] = login_result[:username].id
 
   else
@@ -72,8 +61,6 @@ post '/users/:id/profile' do
   else
     return json({error: 'failure'})
   end
-
-
 end
 
 # get 'users/:id/profile' do
@@ -84,36 +71,23 @@ end
 #   end
 # end
 
-# get 'users/:id/matches' do
-#   if session[:id]
-#     show_matches = RPS::ViewMatches.run({id: params[:id]})
-#     @match_results = show_matches[:profiles]
-#     @matches.map! { |user| json user.to_json }
-#     erb :matches
-#   else
-#     redirect to('/login')
-#   end
-# end
+get '/users/:id/matches' do
+  if session[:user] == params[:id].to_i
+  binding.pry
 
-# post '/login' do
-#   puts params
-#   params = JSON.parse(request.body.read.to_s)
-#   login_info = params['user']
-#   login_result = Snapr::UserLogin.run(login_info)
-#   json login_result.to_json
+    result = Snapr::ViewMatches.run({id: session[:user]})
+binding.pry
+    @match_results = result[:matches]
 
-#   if login_result[:success?]
-#     session[:id] = login_result[:id]
-#     session[:user] = session[:user].to_json
-#   else
-#     @error = login_result[:error]
-#   end
+    arr = []
+    @match_results.each { |user| arr << {username: user.username, id: user.id, age: user.age, city: user.city, state: user.state, gender: user.gender, gender_pref: user.gender_pref, description: user.description} }
 
-#   json( {user_id: login_result[:username].id } )
+    return json arr
 
-#   # binding.pry
-# end
-
+  else
+    return json({error: 'failure'})
+  end
+end
 
 get '/users/:id/feed' do
 

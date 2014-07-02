@@ -57,9 +57,9 @@
         controllerAs: 'feed'
       })
 
-      .when('/user/:id/matches', {
+      .when('/users/:id/matches', {
         templateUrl : 'partials/matches.html',
-        controller  : 'mainController'
+        controller  : 'matchesController'
       })
 
       .when('/users/:id/profile', {
@@ -133,7 +133,20 @@
         })
       })
     }
-  });
+  })
+
+  .controller('matchesController', function($scope, $http, $routeParams ) {
+    var id = $routeParams['id']; // find id based off the parameter
+    $scope.matches = []
+
+    $http.get('/users/' + id + '/matches')
+    .success(
+      function(data) {
+
+        $scope.matches = data;
+        // 9 divs showing 9 different user profiles
+      })
+    });
 
   // snapr.controller('contactController', function($scope, , $http) {
   //   $scope.message = 'Contact us! JK. This is just a demo.';

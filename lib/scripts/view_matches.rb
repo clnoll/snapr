@@ -5,7 +5,7 @@ class Snapr::ViewMatches
   end
 
   def run(input)
-    matches = Snapr.orm.list_matches(input[:uid])
+    matches = Snapr.orm.list_matches(input['id'])
 
     if matches.nil?
       return { :success? => false, :error => 'something terrible has happend' }

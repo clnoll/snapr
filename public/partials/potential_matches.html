@@ -1,10 +1,10 @@
 
-
+<a ng-href='/#/users/1/matches'>view matches</a>
 <a ng-href='/#/users/1/profile'>go to profile</a>
 <div class="container">
   <div class="row">
     <div class="[ col-sm-6 col-md-offset-2 col-md-4 ]">
-      <div class="[ info-card ]" ng-repeat="user in users">
+      <div class="[ info-card ]" ng-repeat="user in users | limitTo : 9">
           <img style="width: 100%" src="https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xfa1/t1.0-9/417157_4897339837183_626079670_n.jpg" />
           <div class="[ info-card-details ] animate">
             <div class="[ info-card-header ]">

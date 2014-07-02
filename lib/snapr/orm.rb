@@ -115,23 +115,23 @@ module Snapr
 
     def list_matches(uid)
       command = <<-SQL
-        SELECT *
-        FROM users u
-        JOIN matches m
-        ON u.id = m.user_id_2
-        OR u.id = m.user_id_1
-        WHERE m.user_id_1 = #{uid}
-        OR m.user_id_2 = #{uid}
-        AND m.likes != 'f'
-        EXCEPT
-        SELECT *
-        FROM users u
-        JOIN matches m
-        ON u.id = m.user_id_2
-        OR u.id = m.user_id_1
-        WHERE u.id = #{uid};
+        SELECT * FROM users;
       SQL
-
+      #   SELECT *
+      #   FROM users u
+      #   JOIN matches m
+      #   ON u.id = m.user_id_2
+      #   OR u.id = m.user_id_1
+      #   WHERE m.user_id_1 = #{uid}
+      #   OR m.user_id_2 = #{uid}
+      #   AND m.likes != 'f'
+      #   EXCEPT
+      #   SELECT *
+      #   FROM users u
+      #   JOIN matches m
+      #   ON u.id = m.user_id_2
+      #   OR u.id = m.user_id_1
+      #   WHERE u.id = #{uid};
       users = []
       output = @db_adaptor.exec(command)
 

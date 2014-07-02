@@ -1,0 +1,26 @@
+<h1>Matches</h1>
+<a ng-href='/#/users/1/profile'>go to profile</a>
+<div class="container">
+  <div class="row">
+    <div class="[ col-sm-6 col-md-offset-2 col-md-4 ]">
+      <div class="[ info-card ]" ng-repeat="match in matches | limitTo : 9">
+          <img style="width: 100%" src="https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xfa1/t1.0-9/417157_4897339837183_626079670_n.jpg" />
+          <div class="[ info-card-details ] animate">
+            <div class="[ info-card-header ]">
+              <h1> {{match.username}} </h1>
+              <h3>{{match.description}}</h3>
+            </div>
+            <div class="[ info-card-detail ]">
+
+              <p>{{match.age}}</p>
+              <div class="social">
+                <a href="https://www.facebook.com/rem.mcintosh" class="[ social-icon facebook ] animate"><span class="fa fa-facebook"></span></a>
+
+                <a href="https://twitter.com/Mouse0270" class="[ social-icon twitter ] animate"><span class="fa fa-twitter"></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
