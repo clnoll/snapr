@@ -71,7 +71,7 @@ module Snapr
       list = <<-SQL
       SELECT *
       FROM users
-      WHERE id = #{uid}
+      WHERE id = #{uid};
       SQL
       result = @db_adaptor.exec(list).first
 

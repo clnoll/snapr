@@ -62,6 +62,11 @@
         controller  : 'mainController'
       })
 
+      .when('/users/:id/profile', {
+        templateUrl : 'partials/profile.html',
+        controller  : 'profileController'
+      })
+
       .when('/signup', {
         templateUrl : 'partials/signup.html',
         controller  : 'signUpController'
@@ -109,6 +114,19 @@
 
     $scope.signup = function() {
       $scope.signup_result = $http.post('/signup', {user: $scope.user}, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).success(
+        function(data){
+        $timeout(function() {
+          $location.path('/users/' + data.user_id + '/feed');
+        })
+      })
+    }
+  })
+
+  .controller('profileController', function($scope, $location, $timeout, $http, $routeParams) {
+    $scope.user = {username: '', age: '', city: '', state: '', gender: '', gender_pref: '', description: ''};
+    var id = $routeParams['id'];
+    $scope.profile = function() {
+      $scope.profile_result = $http.post('/users/' + id + '/profile', {user: $scope.user}, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).success(
         function(data){
         $timeout(function() {
           $location.path('/users/' + data.user_id + '/feed');

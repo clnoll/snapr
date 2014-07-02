@@ -49,15 +49,10 @@ post '/signup' do
   puts params
   params = JSON.parse(request.body.read.to_s)
   signup_info = params['user']
-
   signup_result = Snapr::UserSignUp.run(signup_info)
 
-  # json login_result[:username].to_json
-  binding.pry
   if signup_result[:success?]
-    # session[:id] = login_result[:id]
     session[:user] = signup_result[:username].id
-    # binding.pry
   else
     @error = signup_result[:error]
   end
@@ -65,14 +60,21 @@ post '/signup' do
    json( {user_id: signup_result[:username].id } )
 end
 
-# post 'users/:id/profile' do
-#   if session[:id]
-#     edit_profile = Snapr::CreateProfile.run({id: session[:id], age: params[:age], city: params[:city], state: params[:state], gender: params[:gender], gender_pref: params[:gender_pref], description: params[:description]})
-#     redirect to("/login")
-#   else
-#     redirect to('/login')
-#   end
-# end
+post '/users/:id/profile' do
+  if session[:user] == params[:id].to_i
+    puts params
+    params = JSON.parse(request.body.read.to_s)
+    signup_info = params['user']
+    signup_info['id'] = session[:user]
+    profile_result = Snapr::CreateProfile.run(signup_info)
+    return json( {user_id: profile_result[:profile].id } )
+
+  else
+    return json({error: 'failure'})
+  end
+
+
+end
 
 # get 'users/:id/profile' do
 #   if session[:id]
