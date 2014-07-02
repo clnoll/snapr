@@ -123,7 +123,7 @@
   })
 
   .controller('profileController', function($scope, $location, $timeout, $http, $routeParams) {
-    $scope.user = {username: '', age: '', city: '', state: '', gender: '', gender_pref: '', description: ''};
+    $scope.user = {username: '', age: '', city: '', state: '', gender: '', gender_pref: '', description: '', image: ''};
     var id = $routeParams['id'];
     $scope.profile = function() {
       $scope.profile_result = $http.post('/users/' + id + '/profile', {user: $scope.user}, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).success(

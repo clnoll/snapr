@@ -15,6 +15,14 @@ get '/' do
   send_file 'index.html'
 end
 
+# get '/user/:id' do
+#   if session[:user_id] == params[:id]
+#     return json Snapr::GetUserById.run(id: session[:user_id])
+#   else
+#     return :failure
+#   end
+# end
+
 post '/login' do
   puts params
 
@@ -73,20 +81,25 @@ end
 
 get '/users/:id/matches' do
   if session[:user] == params[:id].to_i
-  binding.pry
-
     result = Snapr::ViewMatches.run({id: session[:user]})
-binding.pry
     @match_results = result[:matches]
 
     arr = []
-    @match_results.each { |user| arr << {username: user.username, id: user.id, age: user.age, city: user.city, state: user.state, gender: user.gender, gender_pref: user.gender_pref, description: user.description} }
+    @match_results.each { |user| arr << {username: user.username, id: user.id, age: user.age, city: user.city, state: user.state, gender: user.gender, gender_pref: user.gender_pref, description: user.description, image: user.image} }
 
     return json arr
 
   else
     return json({error: 'failure'})
   end
+#   if session[:id]
+#     show_matches = RPS::ViewMatches.run({id: params[:id]})
+#     @match_results = show_matches[:profiles]
+#     @matches.map! { |user| json user.to_json }
+#     erb :matches
+#   else
+#     redirect to('/login')
+#   end
 end
 
 get '/users/:id/feed' do
@@ -97,8 +110,9 @@ get '/users/:id/feed' do
 
     @profiles = result[:profiles]
     arr = []
-    @profiles.each { |user| arr << {username: user.username, id: user.id, age: user.age, city: user.city, state: user.state, gender: user.gender, gender_pref: user.gender_pref, description: user.description} }
-
+# binding.pry
+    # signup_info['image'] = params[:tempfile]
+    @profiles.each { |user| arr << {username: user.username, id: user.id, age: user.age, city: user.city, state: user.state, gender: user.gender, gender_pref: user.gender_pref, description: user.description, image: user.image} }
     return json arr
 
   else
