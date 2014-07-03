@@ -79,14 +79,14 @@ end
 #   end
 # end
 
-post '/users/:id/message/:idto' do
+post '/users/:id/message' do
   if session[:user] == params[:id].to_i
     params = JSON.parse(request.body.read.to_s)
-
-    snap_info[:id] = session[:user]
-    snap_info[:idto] = params[:idto]
-    snap_result = Snapr::SendSnap.run(params)
-    return json( { snap_info: snap_result[:] } )
+    snap_info = params['user']
+    # snap_info['id'] = session[:user]
+    # snap_info['idto'] = params[:idto]
+    # snap_result = Snapr::SendSnap.run(params)
+    # return json( { snap_info: snap_result[:] } )
   else
     return json({error: 'failure'})
   end

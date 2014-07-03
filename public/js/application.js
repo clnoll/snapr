@@ -67,7 +67,7 @@
           controller: 'profileController'
       })
 
-      .when('/users/:id/message/:idto', {
+      .when('/users/:id/message', {
           templateUrl: 'partials/message.html',
           controller: 'messageController'
       })
@@ -203,18 +203,19 @@
   })
 
   .controller('messageController', function ($routeParams, $scope) {
-  var id = $routeParams['id'];
+    var id = $routeParams['id'];
+    var idto = $routeParams['idto'];
 
-   $scope.snapUrl = function(){
-      imgUrl = document.getElementsByTagName('img')[0].src;
-      console.log(imgUrl)
-   }
+   // $scope.snapUrl = function(){
+   //    imgUrl = document.getElementsByTagName('img')[0].src;
+   //    console.log(imgUrl)
+   // }
 
-    $http.post('/match', {
-      user: uid,
-      uid_2: uid2,
-      snap
-    })
+   //  $http.post('/match', {
+   //    user: uid,
+   //    uid_2: uid2,
+   //    snap
+   //  })
 
 
   angular.element(document).ready(function () {
