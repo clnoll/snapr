@@ -67,7 +67,7 @@
           controller: 'profileController'
       })
 
-      .when('/users/:id/message', {
+      .when('/users/:id/message/:idto', {
           templateUrl: 'partials/message.html',
           controller: 'messageController'
       })
@@ -75,6 +75,11 @@
       .when('/signup', {
           templateUrl: 'partials/signup.html',
           controller: 'signUpController'
+      })
+
+      .when('/users/:id/message/:idto/success', {
+          templateUrl: 'partials/message_sent.html',
+          controller: 'messageSentController'
       });
   })
 
@@ -139,6 +144,10 @@
 
   })
 
+  .controller('messageSentController', function(){
+
+  })
+
   .controller('signUpController', function ($scope, $location, $timeout, $http) {
       $scope.user = {
           username: '',
@@ -189,33 +198,73 @@
       }
   })
 
-  .controller('matchesController', function ($scope, $http, $routeParams) {
-      var id = $routeParams['id']; // find id based off the parameter
-      $scope.matches = []
+  .controller('matchesController', function($scope, $http, $routeParams, $timeout, $location) {
+    var id = $routeParams['id']; // find id based off the parameter
+    $scope.matches = []
+    $scope.id = id
 
-      $http.get('/users/' + id + '/matches')
-          .success(
-              function (data) {
+    $scope.toSend = function(recipient) {
+      console.log('hi');
+      $timeout(function() {
+          $location.path('/users/' + id + '/message/' + recipient);
+      })
+    }
 
+    $http.get('/users/' + id + '/matches')
+    .success(
+      function(data) {
                   $scope.matches = data;
                   // 9 divs showing 9 different user profiles
               })
   })
 
-  .controller('messageController', function ($routeParams, $scope) {
+  .controller('messageController', function($routeParams, $scope, $http, $timeout, $location) {
     var id = $routeParams['id'];
     var idto = $routeParams['idto'];
 
-   // $scope.snapUrl = function(){
-   //    imgUrl = document.getElementsByTagName('img')[0].src;
-   //    console.log(imgUrl)
-   // }
 
-   //  $http.post('/match', {
-   //    user: uid,
-   //    uid_2: uid2,
-   //    snap
-   //  })
+
+   $scope.snapUrl = function(){
+      // var imgUrl = document.getElementsByTagName('img')[0].src;
+
+      try {
+          var img = document.getElementById('canvas').toDataURL('image/jpeg', 0.9).split(',')[1];
+      } catch(e) {
+          var img = document.getElementById('canvas').toDataURL().split(',')[1];
+      }
+
+    $.ajax({
+        url: 'https://api.imgur.com/3/image',
+        type: 'post',
+        headers: {
+            Authorization: 'Client-ID 88a1fb9b6088fa1'
+        },
+        data: {
+            image: img
+        },
+        dataType: 'json',
+        success: function(response) {
+            if(response.success) {
+                // window.location = response.data.link;
+                var imgUrl = response.data.link
+                console.log(response.data.link)
+                $http.post('/users/:id/message/:idto', {user: id, uid_2: idto, snap: imgUrl}).success(
+                  function(){
+                    $timeout(function() {
+                      $location.path('/users/' + id + '/message/' + idto + '/success');
+                    })
+                  })
+
+            }
+        }
+    });
+
+
+
+
+
+   }
+
 
 
   angular.element(document).ready(function () {
@@ -269,8 +318,17 @@
           photo.setAttribute('src', data);
       };
 
-      $('#canvas').hide();
+      // $('#canvas').hide();
+   $scope.decorate = function(){
+     var canvas = document.getElementById('canvas')
+      var context = canvas.getContext("2d");
+      context.fillRect(10, 175, 300, 50);
+      context.globalAlpha = .1;
+      context.globalCompositeOperation = .5;
 
+      context.fillStyle = "rgba(255, 255, 255, 0.2)";
+
+   }
       startbutton.addEventListener('click', function (ev) {
           takepicture();
           ev.preventDefault();

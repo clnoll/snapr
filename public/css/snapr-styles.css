@@ -3,6 +3,12 @@
     body {
     padding: 60px 0px;
   }
+
+  .login {
+    width: 25%;
+    margin: auto auto;
+  }
+
   .container {
     display: inline-block;
 

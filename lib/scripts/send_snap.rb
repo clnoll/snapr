@@ -1,3 +1,5 @@
+require 'open-uri'
+require 'net/http'
 require 'snapcat'
 
 class Snapr::SendSnap
@@ -8,21 +10,17 @@ class Snapr::SendSnap
 
   def run(input)
 
-    # sender = Snapr::ORM.get_user(input[:username])
-    # Snapr::UserLogin.run({ :username=> 'snaprtest', :password => 'Snaprpassword' })
+    sender = Snapr.orm.get_user_by_id(input['user'])
+    recipient = Snapr.orm.get_user_by_id(input['uid_2'])
 
-    # recipient = Snapr::ORM.get_user(input[:username])
+    user = Snapcat::Client.new(sender.username)
+    snap_user = user.login(sender.password)
+    # binding.pry
 
-    # message = sender.send_media('/Users/catherinenoll/Dropbox/964148_10151951006908219_878025574_o (1) copy 2.jpg', recipient)
-
-
-
-  #   profile = Snapr.orm.create_profile(input[:id], input[:age], input[:city], input[:state], input[:gender], input[:gender_pref], input[:description])
-
-  #   if profile.id == nil
-  #     return { :success? => false, :error => "Missing user id"}
-  #   end
-
-  #   { :success? => true, :profile => profile}
+    create_snap = File.write('public/img/temp.jpg', Net::HTTP.get(URI.parse(input['snap'])))
+# binding.pry
+    sent = user.send_media(File.read('public/img/temp.jpg'), recipient.username)
+    # binding.pry
+    { :success? => true, :recipient => recipient}
   end
 end
