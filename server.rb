@@ -79,6 +79,19 @@ end
 #   end
 # end
 
+post '/users/:id/message/:idto' do
+  if session[:user] == params[:id].to_i
+    params = JSON.parse(request.body.read.to_s)
+
+    snap_info[:id] = session[:user]
+    snap_info[:idto] = params[:idto]
+    snap_result = Snapr::SendSnap.run(params)
+    return json( { snap_info: snap_result[:] } )
+  else
+    return json({error: 'failure'})
+  end
+end
+
 post '/match' do
   params = JSON.parse(request.body.read.to_s)
 
@@ -101,14 +114,6 @@ get '/users/:id/matches' do
   else
     return json({error: 'failure'})
   end
-#   if session[:id]
-#     show_matches = RPS::ViewMatches.run({id: params[:id]})
-#     @match_results = show_matches[:profiles]
-#     @matches.map! { |user| json user.to_json }
-#     erb :matches
-#   else
-#     redirect to('/login')
-#   end
 end
 
 
