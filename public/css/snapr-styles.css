@@ -1,14 +1,24 @@
     @import url(//fonts.googleapis.com/css?family=Lato:400,900);
     @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
     body {
-    padding: 60px 0px;
+    padding: 0px 0px;
   }
 
   .login {
     width: 25%;
     margin: auto auto;
   }
-
+  .row-centered {
+      text-align:center;
+  }
+  .col-centered {
+      display:inline-block;
+      float:none;
+      /* reset the text-align */
+      text-align:left;
+      /* inline-block space fix */
+      margin-right:-4px;
+  }
   .container {
     display: inline-block;
 
