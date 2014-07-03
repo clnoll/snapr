@@ -21,6 +21,7 @@ module Snapr
         gender TEXT,
         gender_pref TEXT,
         description TEXT,
+        image TEXT,
         PRIMARY KEY(id));
       SQL
       table_matches = <<-SQL
@@ -78,7 +79,7 @@ module Snapr
       Snapr::User.new(result["username"], result["password"], result["id"].to_i)
     end
 
-    def create_profile(uid, age, city, state, gender, gender_pref, description)
+    def create_profile(uid, age, city, state, gender, gender_pref, description, image)
       update = <<-SQL
       UPDATE users
       SET
@@ -87,7 +88,8 @@ module Snapr
         state='#{state}',
         gender='#{gender}',
         gender_pref='#{gender_pref}',
-        description='#{description}'
+        description='#{description}',
+        image='#{image}'
       WHERE id=#{uid}
       RETURNING *;
       SQL

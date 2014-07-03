@@ -8,7 +8,7 @@ class Snapr::CreateProfile
 
   def run(input)
 
-    profile = Snapr.orm.create_profile(input['id'], input['age'], input['city'], input['state'], input['gender'], input['gender_pref'], input['description'])
+    profile = Snapr.orm.create_profile(input['id'], input['age'], input['city'], input['state'], input['gender'], input['gender_pref'], input['description'], input['image'])
 
     if profile.id == nil
       return { :success? => false, :error => "Missing user id"}

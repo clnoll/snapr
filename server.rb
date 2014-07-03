@@ -15,6 +15,14 @@ get '/' do
   send_file 'index.html'
 end
 
+# get '/user/:id' do
+#   if session[:user_id] == params[:id]
+#     return json Snapr::GetUserById.run(id: session[:user_id])
+#   else
+#     return :failure
+#   end
+# end
+
 post '/login' do
   puts params
 
@@ -71,10 +79,17 @@ end
 #   end
 # end
 
-# You receive image url from js to ruby
-# download image and save to file public/images/image_name.jpg
-# Call File.open('public/images/image_name.jpg') to read the file
-# Send the result of that call to Snapcat
+post '/users/:id/message/:idto' do
+    params = JSON.parse(request.body.read.to_s)
+    snap_result = Snapr::SendSnap.run(params)
+    # return json( { snap_info: snap_result[:] } )
+  # else
+  #   return
+  return json({:success => true})
+
+  # end
+end
+
 
 post '/match' do
   params = JSON.parse(request.body.read.to_s)
@@ -86,13 +101,12 @@ end
 
 get '/users/:id/matches' do
   if session[:user] == params[:id].to_i
-
     result = Snapr::ViewMatches.run({id: session[:user]})
 
     @match_results = result[:matches]
 
     arr = []
-    @match_results.each { |user| arr << {username: user.username, id: user.id, age: user.age, city: user.city, state: user.state, gender: user.gender, gender_pref: user.gender_pref, description: user.description} }
+    @match_results.each { |user| arr << {username: user.username, id: user.id, age: user.age, city: user.city, state: user.state, gender: user.gender, gender_pref: user.gender_pref, description: user.description, image: user.image} }
 
     return json arr
 
@@ -110,8 +124,9 @@ get '/users/:id/feed' do
 
     @profiles = result[:profiles]
     arr = []
-    @profiles.each { |user| arr << {username: user.username, id: user.id, age: user.age, city: user.city, state: user.state, gender: user.gender, gender_pref: user.gender_pref, description: user.description} }
-
+# binding.pry
+    # signup_info['image'] = params[:tempfile]
+    @profiles.each { |user| arr << {username: user.username, id: user.id, age: user.age, city: user.city, state: user.state, gender: user.gender, gender_pref: user.gender_pref, description: user.description, image: user.image} }
     return json arr
 
   else

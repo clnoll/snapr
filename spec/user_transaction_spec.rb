@@ -36,7 +36,7 @@ end
 
 describe Snapr::UserLogin do
   it "logs in a user" do
-      user_username = 'snaprtest'
+      user_usename = 'snaprtest'
       user_password = 'Snaprpassword'
       create = Snapr::UserSignUp.run({ :username => user_username, :password => user_password })
       result = Snapr::UserLogin.run({ :username => user_username, :password => user_password })

@@ -14,6 +14,7 @@ CREATE TABLE users(
         gender TEXT,
         gender_pref TEXT,
         description TEXT,
+        image TEXT,
         PRIMARY KEY(id));
 
 CREATE TABLE matches(
@@ -55,7 +56,8 @@ UPDATE users
         state='CA',
         gender='male',
         gender_pref='male',
-        description='hello'
+        description='hello',
+        image='http://i.imgur.com/sMnQ0A0.png'
       WHERE id=1;
 UPDATE users
       SET
@@ -64,7 +66,8 @@ UPDATE users
         state='CA',
         gender='male',
         gender_pref='male',
-        description='hi there'
+        description='hi there',
+        image='http://i.imgur.com/nXQTu1a.png'
       WHERE id=2;
 UPDATE users
       SET
@@ -73,7 +76,8 @@ UPDATE users
         state='CA',
         gender='male',
         gender_pref='male',
-        description='ahoy'
+        description='ahoy',
+        image='http://i.imgur.com/gUoVAo2.png'
       WHERE id=3;
 UPDATE users
       SET
@@ -82,7 +86,8 @@ UPDATE users
         state='CA',
         gender='male',
         gender_pref='female',
-        description='yo'
+        description='yo',
+        image='http://i.imgur.com/vkXs1ML.png'
       WHERE id=4;
 UPDATE users
       SET
@@ -91,7 +96,8 @@ UPDATE users
         state='CA',
         gender='male',
         gender_pref='female',
-        description='hey'
+        description='hey',
+        image='http://i.imgur.com/4xnl1lN.png'
       WHERE id=5;
 UPDATE users
       SET
@@ -100,7 +106,8 @@ UPDATE users
         state='CA',
         gender='male',
         gender_pref='female',
-        description='hi'
+        description='hi',
+        image='http://i.imgur.com/T98CJxw.png'
       WHERE id=6;
 UPDATE users
       SET
@@ -109,7 +116,8 @@ UPDATE users
         state='CA',
         gender='female',
         gender_pref='female',
-        description='look at me'
+        description='look at me',
+        image='http://i.imgur.com/tetpNXy.png'
       WHERE id=7;
 UPDATE users
       SET
@@ -118,7 +126,8 @@ UPDATE users
         state='CA',
         gender='female',
         gender_pref='female',
-        description='whatup'
+        description='whatup',
+        image='http://i.imgur.com/IGUuHgy.png'
       WHERE id=8;
 UPDATE users
       SET
@@ -127,7 +136,8 @@ UPDATE users
         state='CA',
         gender='female',
         gender_pref='female',
-        description='well hello'
+        description='well hello',
+        image='http://i.imgur.com/bZSVxJx.png'
       WHERE id=9;
 UPDATE users
       SET
@@ -136,7 +146,8 @@ UPDATE users
         state='CA',
         gender='female',
         gender_pref='male',
-        description='here i am'
+        description='here i am',
+        image='http://i.imgur.com/3jhG3oN.png'
       WHERE id=10;
 UPDATE users
       SET
@@ -145,7 +156,8 @@ UPDATE users
         state='CA',
         gender='female',
         gender_pref='male',
-        description='hello'
+        description='hello',
+        image='http://i.imgur.com/k1iNybD.png'
       WHERE id=11;
 UPDATE users
       SET
@@ -154,5 +166,6 @@ UPDATE users
         state='CA',
         gender='female',
         gender_pref='male',
-        description='hi'
+        description='hi',
+        image='http://i.imgur.com/P8o6ZA5.png'
       WHERE id=12;
