@@ -147,11 +147,12 @@
     }
   })
 
-  .controller('matchesController', function($scope, $http, $routeParams, $timeout) {
+  .controller('matchesController', function($scope, $http, $routeParams, $timeout, $location) {
     var id = $routeParams['id']; // find id based off the parameter
     $scope.matches = []
 
     $scope.toSend = function(recipient) {
+      console.log('hi');
       $timeout(function() {
           $location.path('/users/' + id + '/message/' + recipient);
       })
