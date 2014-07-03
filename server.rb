@@ -71,6 +71,11 @@ end
 #   end
 # end
 
+# You receive image url from js to ruby
+# download image and save to file public/images/image_name.jpg
+# Call File.open('public/images/image_name.jpg') to read the file
+# Send the result of that call to Snapcat
+
 post '/match' do
   params = JSON.parse(request.body.read.to_s)
 
